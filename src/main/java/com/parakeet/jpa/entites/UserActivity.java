@@ -1,7 +1,6 @@
 package com.parakeet.jpa.entites;
 
 import lombok.Data;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
@@ -25,11 +24,8 @@ public class UserActivity {
     private LocalDate loginTs;
     @Column(name = "logout_ts")
     private LocalDate logoutTs;
-
-
-    @ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
-    @org.hibernate.annotations.Cache(usage = CacheConcurrencyStrategy.TRANSACTIONAL)
     private Users users;
 
 
