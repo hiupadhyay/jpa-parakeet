@@ -4,12 +4,14 @@ import com.parakeet.jpa.dto.CreateUserRequestDTO;
 import com.parakeet.jpa.dto.CreateUserResponseDTO;
 import com.parakeet.jpa.entites.Users;
 import com.parakeet.jpa.service.UserService;
+import com.parakeet.jpa.service.mappers.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Mono;
 
+import javax.transaction.Transactional;
 import java.util.Optional;
 
 @RestController
@@ -36,7 +38,7 @@ public class UserController {
     public Mono<ResponseEntity> user(@PathVariable("userId") String userId) {
         Optional<Users> user = userService.getUser(userId);
         if (user.isPresent())
-            return Mono.just(ResponseEntity.status(HttpStatus.OK).body(user));
+            return Mono.just(ResponseEntity.status(HttpStatus.OK).body(UserMapper.userEntityToDTO(user.get())));
         else
             return Mono.just(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }

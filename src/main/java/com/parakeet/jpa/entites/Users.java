@@ -1,14 +1,16 @@
 package com.parakeet.jpa.entites;
 
 import lombok.Data;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
-@Entity(name = "users")
+@Entity
 @Table(name = "users")
 @Data
 public class Users {
@@ -17,6 +19,12 @@ public class Users {
     @Type(type = "uuid-char")
     @Column(name = "id", columnDefinition = "VARCHAR(255)", insertable = false, updatable = false, nullable = false)
     private UUID id;
+
+    @EqualsAndHashCode.Exclude
+    @ToString.Exclude
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "users")
+    private Set<UserActivity> useractivity;
+
     @Column(name = "fname")
     private String firstName;
     @Column(name = "middlename")
